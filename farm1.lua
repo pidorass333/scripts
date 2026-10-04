@@ -15,7 +15,7 @@ ScreenGui.Parent = CoreGui
 
 local MainFrame = Instance.new("Frame")
 MainFrame.Name = "MainFrame"
-MainFrame.Size = UUDim2.new(0, 320, 0, 260)
+MainFrame.Size = UDim2.new(0, 320, 0, 260)
 MainFrame.Position = UDim2.new(0.5, -160, 0.4, -130)
 MainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
 MainFrame.BorderSizePixel = 0
@@ -116,7 +116,7 @@ DelayInput.Size = UDim2.new(1, -20, 0, 35)
 DelayInput.Position = UDim2.new(0, 10, 0, 95)
 DelayInput.BackgroundColor3 = Color3.fromRGB(30, 30, 35)
 DelayInput.Text = "500"
-DelayInput.PlaceholderText = "зпдержка перед тп в милисекундах)"
+DelayInput.PlaceholderText = "задержка перед тп в милисекундах)"
 DelayInput.TextColor3 = Color3.fromRGB(255, 255, 255)
 DelayInput.TextSize = 14
 DelayInput.Font = Enum.Font.SourceSans
