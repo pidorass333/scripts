@@ -1,4 +1,3 @@
-```lua
 local CoreGui = game:GetService("CoreGui")
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
@@ -399,4 +398,3 @@ ToggleBtn.MouseButton1Click:Connect(function()
         StatusLabel.Text = "Статус: Остановлен"
     end
 end)
-```
