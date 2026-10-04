@@ -18,7 +18,7 @@ end
 local ScreenGui = Instance.new("ScreenGui")
 print("[5] ScreenGui создан")
 
-ScreenGui.Name = "DarkRainbowTeleporter"
+ScreenGui.Name = "коч коч"
 ScreenGui.ResetOnSpawn = false
 ScreenGui.Parent = CoreGui
 
@@ -205,7 +205,7 @@ StatusLabel.BackgroundTransparency = 1
 StatusLabel.Text = "Статус: Остановлен"
 StatusLabel.TextColor3 = Color3.fromRGB(160, 160, 170)
 StatusLabel.TextSize = 13
-StatusLabel.Font = Enum.Font.GothamItalic
+StatusLabel.Font = Enum.Font.Gotham
 StatusLabel.Parent = MainFrame
 
 local ToggleBtn = Instance.new("TextButton")
