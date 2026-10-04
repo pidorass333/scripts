@@ -87,11 +87,16 @@ local mainThread = task.spawn(function()
     end
 end)
 
-Window:OnClose(function()
-    Toggle:SetValue(false)
-    if rainbowThread then task.cancel(rainbowThread) end
-    if mainThread then task.cancel(mainThread) end
-    Fluent:Destroy()
+-- Безопасный метод остановки: ждем, пока UI удалится из игры
+task.spawn(function()
+    local guiElement = game:GetService("CoreGui"):WaitForChild("Fluent", 5) or game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Fluent", 5)
+    if guiElement then
+        guiElement.Destroying:Connect(function()
+            Toggle:SetValue(false)
+            if rainbowThread then task.cancel(rainbowThread) end
+            if mainThread then task.cancel(mainThread) end
+        end)
+    end
 end)
 
 Window:SelectTab(1)
