@@ -1,17 +1,28 @@
+print("[1] Скрипт запущен")
+
 local CoreGui = game:GetService("CoreGui")
+print("[2] CoreGui получен")
+
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local TweenService = game:GetService("TweenService")
-local LocalPlayer = Players.LocalPlayer
 
-if CoreGui:FindFirstChild("DarkRainbowTeleporter") then
+local LocalPlayer = Players.LocalPlayer
+print("[3] LocalPlayer:", LocalPlayer)
+
+if CoreGui:FindFirstChild("коч братан ультра телепортер") then
+    print("[4] Старое меню найдено, удаляю")
     CoreGui.DarkRainbowTeleporter:Destroy()
 end
 
 local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "коч братан ультра крутой телепортер"
+print("[5] ScreenGui создан")
+
+ScreenGui.Name = "DarkRainbowTeleporter"
 ScreenGui.ResetOnSpawn = false
 ScreenGui.Parent = CoreGui
+
+print("[6] ScreenGui добавлен в CoreGui")
 
 local MainFrame = Instance.new("Frame")
 MainFrame.Name = "MainFrame"
