@@ -1,13 +1,12 @@
 local Plr = game:GetService("Players").LocalPlayer
+local VIS = game:GetService("VirtualInputService")
 local Gui = Instance.new("ScreenGui", gethui and gethui() or Plr:WaitForChild("PlayerGui"))
-local Btn = Instance.new("TextButton", Gui)
 
+local Btn = Instance.new("TextButton", Gui)
 Btn.Size, Btn.Position = UDim2.new(0, 180, 0, 45), UDim2.new(0.5, -90, 0.1, 0)
 Btn.Text, Btn.BackgroundColor3 = "коч", Color3.fromRGB(255, 0, 0)
 
 local active = false
-
-if setfpscap then setfpscap(60) end 
 
 task.spawn(function()
     while true do
@@ -18,37 +17,22 @@ task.spawn(function()
             local port = workspace:FindFirstChild("Lobby") and workspace.Lobby:FindFirstChild("Teleport1")
 
             if hrp and hum and hum.Health > 0 and port then
-                while active and char and char:FindFirstChild("HumanoidRootPart") and not char:FindFirstChild("entered") and hum.Health > 0 do
+                while active and not char:FindFirstChild("entered") and hum.Health > 0 do
                     firetouchinterest(hrp, port, 0)
-                    task.wait()
                     firetouchinterest(hrp, port, 1)
                     task.wait(0.02)
                 end
 
-                if active and char and char:FindFirstChild("entered") then
-                    task.wait(0.1)
-                    
+                if active and char:FindFirstChild("entered") and hum.Health > 0 then
                     pcall(function()
-                        if keypress and keyrelease then
-                            keypress(0x45)
-                            task.wait(0.05)
-                            keyrelease(0x45)
-                        else
-                            local VIS = game:GetService("VirtualInputService")
-                            VIS:PressButton(Enum.KeyCode.E)
-                            task.wait(0.05)
-                            VIS:ReleaseButton(Enum.KeyCode.E)
-                        end
+                        VIS:PressButton(Enum.KeyCode.E)
+                        task.wait(0.01)
+                        VIS:ReleaseButton(Enum.KeyCode.E)
                     end)
                     
-                    task.wait(0.1)
+                    hum.Health = 0
                     
-                    if hum and hum.Health > 0 then
-                        hum.Health = 0
-                    end
-                    
-                    local currentCharacter = Plr.Character
-                    while Plr.Character == currentCharacter or not Plr.Character or not Plr.Character:FindFirstChild("HumanoidRootPart") do
+                    while active and Plr.Character == char and hum.Health <= 0 do
                         task.wait(0.1)
                     end
                 end
@@ -56,7 +40,7 @@ task.spawn(function()
                 task.wait(0.1)
             end
         else
-            task.wait(0.3)
+            task.wait(0.2)
         end
     end
 end)
