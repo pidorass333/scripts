@@ -20,13 +20,20 @@ task.spawn(function()
                     task.wait(0.02)
                 end
                 
-                if char:FindFirstChild("entered") then
+                local timeout = 0
+                while active and not char:FindFirstChild("entered") and hum.Health > 0 and timeout < 50 do
+                    task.wait(0.01)
+                    timeout = timeout + 1
+                end
+                
+                if char:FindFirstChild("entered") and hum.Health > 0 then
                     pcall(function()
                         keypress(0x45)
                         task.wait(0.05)
                         keyrelease(0x45)
                     end)
                     
+                    task.wait(0.02)
                     hum.Health = 0
                     
                     local lastChar = char
