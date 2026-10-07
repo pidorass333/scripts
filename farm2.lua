@@ -9,12 +9,25 @@ local active = false
 
 if setfpscap then setfpscap(60) end 
 
-local function clickProximityPrompt()
-    for _, v in pairs(workspace:GetDescendants()) do
+local function clickTargetPrompt(portObject)
+    if not portObject then return end
+    for _, v in pairs(portObject:GetDescendants()) do
         if v:IsA("ProximityPrompt") and v.KeyboardKeyCode == Enum.KeyCode.E then
             fireproximityprompt(v)
+            return true
         end
     end
+    
+    local parent = portObject.Parent
+    if parent then
+        for _, v in pairs(parent:GetDescendants()) do
+            if v:IsA("ProximityPrompt") and v.KeyboardKeyCode == Enum.KeyCode.E and (v.Parent == portObject or v.Parent == parent) then
+                fireproximityprompt(v)
+                return true
+            end
+        end
+    end
+    return false
 end
 
 task.spawn(function()
@@ -37,9 +50,12 @@ task.spawn(function()
                     task.wait(0.05)
                     
                     pcall(function()
+                        local clicked = false
                         if fireproximityprompt then
-                            clickProximityPrompt()
-                        else
+                            clicked = clickTargetPrompt(port)
+                        end
+                        
+                        if not clicked then
                             local VIS = game:GetService("VirtualInputService")
                             VIS:PressButton(Enum.KeyCode.E)
                             task.wait(0.05)
