@@ -1,12 +1,21 @@
 local Plr = game:GetService("Players").LocalPlayer
-local VIS = game:Service("VirtualInputService")
 local Gui = Instance.new("ScreenGui", gethui and gethui() or Plr:WaitForChild("PlayerGui"))
-
 local Btn = Instance.new("TextButton", Gui)
+
 Btn.Size, Btn.Position = UDim2.new(0, 180, 0, 45), UDim2.new(0.5, -90, 0.1, 0)
 Btn.Text, Btn.BackgroundColor3 = "коч", Color3.fromRGB(255, 0, 0)
 
 local active = false
+
+if setfpscap then setfpscap(60) end 
+
+local function clickProximityPrompt()
+    for _, v in pairs(workspace:GetDescendants()) do
+        if v:IsA("ProximityPrompt") and v.KeyboardKeyCode == Enum.KeyCode.E then
+            fireproximityprompt(v)
+        end
+    end
+end
 
 task.spawn(function()
     while true do
@@ -15,27 +24,46 @@ task.spawn(function()
             local hrp = char and char:FindFirstChild("HumanoidRootPart")
             local hum = char and char:FindFirstChildOfClass("Humanoid")
             local port = workspace:FindFirstChild("Lobby") and workspace.Lobby:FindFirstChild("Teleport1")
-            
+
             if hrp and hum and hum.Health > 0 and port then
-                while active and not char:FindFirstChild("entered") and hum.Health > 0 do
+                while active and char and char:FindFirstChild("HumanoidRootPart") and not char:FindFirstChild("entered") and hum.Health > 0 do
                     firetouchinterest(hrp, port, 0)
+                    task.wait()
                     firetouchinterest(hrp, port, 1)
                     task.wait(0.02)
                 end
-                
-                if char:FindFirstChild("entered") then
+
+                if active and char and char:FindFirstChild("entered") then
+                    task.wait(0.05)
+                    
                     pcall(function()
-                        VIS:PressButton(Enum.KeyCode.E)
-                        task.wait(0.01)
-                        VIS:ReleaseButton(Enum.KeyCode.E)
+                        if fireproximityprompt then
+                            clickProximityPrompt()
+                        else
+                            local VIS = game:GetService("VirtualInputService")
+                            VIS:PressButton(Enum.KeyCode.E)
+                            task.wait(0.05)
+                            VIS:ReleaseButton(Enum.KeyCode.E)
+                        end
                     end)
                     
-                    hum.Health = 0
-                    Plr.CharacterAdded:Wait()
-                    task.wait(0.05)
+                    task.wait(0.1)
+                    
+                    if hum and hum.Health > 0 then
+                        hum.Health = 0
+                    end
+                    
+                    local currentCharacter = Plr.Character
+                    while Plr.Character == currentCharacter or not Plr.Character or not Plr.Character:FindFirstChild("HumanoidRootPart") do
+                        task.wait(0.1)
+                    end
                 end
-            else task.wait() end
-        else task.wait(0.2) end
+            else
+                task.wait(0.1)
+            end
+        else
+            task.wait(0.3)
+        end
     end
 end)
 
