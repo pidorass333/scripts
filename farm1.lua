@@ -4,12 +4,12 @@ local RunService = game:GetService("RunService")
 local TweenService = game:GetService("TweenService")
 local LocalPlayer = Players.LocalPlayer
 
-if CoreGui:FindFirstChild("DarkRainbowTeleporter") then
+if CoreGui:FindFirstChild("kochbratanteleporte") then
     CoreGui.DarkRainbowTeleporter:Destroy()
 end
 
 local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "DarkRainbowTeleporter"
+ScreenGui.Name = "kochbratanteleporter"
 ScreenGui.ResetOnSpawn = false
 ScreenGui.Parent = CoreGui
 
