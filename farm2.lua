@@ -1,5 +1,4 @@
 local Plr = game:GetService("Players").LocalPlayer
-local VIS = game:GetService("VirtualInputService")
 local Gui = Instance.new("ScreenGui", gethui and gethui() or Plr:WaitForChild("PlayerGui"))
 
 local Btn = Instance.new("TextButton", Gui)
@@ -7,6 +6,25 @@ Btn.Size, Btn.Position = UDim2.new(0, 180, 0, 45), UDim2.new(0.5, -90, 0.1, 0)
 Btn.Text, Btn.BackgroundColor3 = "коч", Color3.fromRGB(255, 0, 0)
 
 local active = false
+
+local function triggerAbilityDirect()
+    local ServerAbility = game:GetService("ReplicatedStorage"):FindFirstChild("ServerAbility")
+    if ServerAbility and ServerAbility:IsA("RemoteEvent") then
+        ServerAbility:FireServer()
+        return true
+    end
+    
+    local rEvents = game:GetService("ReplicatedStorage"):FindFirstChild("RemoteEvents")
+    if rEvents then
+        local abilityEvent = rEvents:FindFirstChild("Ability") or rEvents:FindFirstChild("ActivateAbility")
+        if abilityEvent and abilityEvent:IsA("RemoteEvent") then
+            abilityEvent:FireServer()
+            return true
+        end
+    end
+    
+    return false
+end
 
 task.spawn(function()
     while true do
@@ -24,11 +42,12 @@ task.spawn(function()
                 end
 
                 if active and char:FindFirstChild("entered") and hum.Health > 0 then
-                    pcall(function()
-                        VIS:PressButton(Enum.KeyCode.E)
+                    local success = triggerAbilityDirect()
+                    if not success then
+                        game:GetService("VirtualInputService"):PressButton(Enum.KeyCode.E)
                         task.wait(0.01)
-                        VIS:ReleaseButton(Enum.KeyCode.E)
-                    end)
+                        game:GetService("VirtualInputService"):ReleaseButton(Enum.KeyCode.E)
+                    end
                     
                     hum.Health = 0
                     
